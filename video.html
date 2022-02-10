@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="youtube1.css">
+    <style>
+        div{
+            border: 1px solid black;
+        }
+        #navbar{
+            height: 100px;
+
+        }
+        #main{
+            display: flex;
+            height: 500px;
+        }
+        #video_details{
+            flex:3
+        }
+        #recom{
+            flex:1
+        }
+        #video{
+            /* border: 1px solid red; */
+            height: 400px;
+            margin-left: 100px;
+            width: 60%;
+            justify-content: flex-end;
+            
+            margin: auto;
+            margin-left: 350px;
+            margin-top: 55px;
+        }
+    </style>
+</head>
+<body>
+    <script src="k.js"></script>
+   <div id="navbar">Navbar</div>
+   <div id="main">
+       <div id="video_details">
+        <div id="video"></div>
+       </div>
+       <div id="recom"></div>
+   </div>
+</body>
+</html>
+<script>
+    let video_data=JSON.parse(localStorage.getItem('clicked_video'));
+    //console.log(video_data);
+    let videodiv=document.getElementById("video_details")
+
+    let iframe=document.createElement('iframe');
+             iframe.src=`https://www.youtube.com/embed/${video_data.videoId}`
+            iframe.width='100%';
+              iframe.height='100%';
+              iframe.setAttribute('allowFullScreen', true)
+              video.append(iframe)
+</script>

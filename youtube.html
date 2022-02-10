@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #search_result{
+            display: grid;
+            grid-template-columns: repeat(4,20%);
+            grid-gap: 5% 5%;
+            justify-content: space-between;
+            margin-top: 5%;
+        }
+    </style>
+</head>
+<body>
+    <h1>YOUTUBE</h1>
+    <input type="text" id="name" placeholder="Enter a name">
+    <button onclick="getsearch()">Search</button>
+    <div id="search_result"></div>
+</body>
+</html>
+<script>
+    const key= "AIzaSyBMpdAktVAHkWrj1-shoyfQKxjbexSeILw"
+    //https://youtube.googleapis.com/youtube/v3/search?q=tesla&type=video&key=[YOUR_API_KEY] 
+
+    async function getsearch(){
+        try{
+            let name=document.getElementById("name").value;
+        let url=`https://youtube.googleapis.com/youtube/v3/search?q=${name}&part=snippet&maxResults=20&type=video&key=${key}`;
+        let res=  await fetch(url);
+        let data= await res.json();
+        console.log('data:',data);
+        let array_of_videos=data.items;
+        appendVideos(array_of_videos)
+        } catch(err){
+            console.log('err:',err);
+        } finally{
+            console.log("done");
+        }
+    }
+const appendVideos =(arr) =>{
+    arr.forEach( ({snippet,id:{videoId}}) => {
+              let url=snippet.thumbnails.medium.url
+              let div=document.createElement('div')
+              let img=document.createElement('img');
+              img.src=url;
+              let title=snippet.title;
+              let h4=document.createElement("h4");
+              h4.innerText=title;
+              let video_data={
+                  snippet,
+                  videoId // only if key and key value same
+              }
+              div.onclick=()=>{
+                  showvideo(video_data);
+              }
+            //  img.src=`https://www.youtube.com/embed/${videoId}
+            // //   let iframe=document.createElement('iframe');
+            // //   iframe.src=`https://www.youtube.com/embed/${videoId}`
+            // //   iframe.width='200px';
+            //   iframe.height='200px';
+            //   //iframe.allowFullscreen=true;
+            //   iframe.setAttribute('allowFullScreen', true)
+              div.append(img,h4);
+              search_result.append(div);
+
+          });
+}
+
+// function showvideo() {
+//     alert('clicked')
+// }
+const showvideo=(video_data)=>{
+//console.log("video_data",video_data);
+localStorage.setItem('clicked_video',JSON.stringify(video_data));
+
+window.open("video.html")
+}
+    
+
+
+
+/*
+<iframe width="560" height="315" src="https://www.youtube.com/embed/g36jg5hEYo8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>*/
+</script>

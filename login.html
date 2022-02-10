@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         h1{
+            text-align: center;
+        }
+        #container{
+            display: flex;
+        }
+        #login-form{
+            margin: auto;
+        }
+        form{
+           width: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="login-form">
+            <h1>Login</h1>
+            <form action="">
+                <input type="text" id="login-username" placeholder="Username">
+                <input type="password" id="login-password" placeholder="Password">
+            </form>
+            <button onclick="Login()" id="login">Login</button>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+     async function Login(){
+        let login_data={
+        username:document.getElementById("login-username").value,
+        password:document.getElementById("login-password").value,
+    };
+    login_data=JSON.stringify(login_data);
+    let login_api=`https://masai-api-mocker.herokuapp.com/auth/login`
+
+    //fetch request
+    let response=await fetch(login_api,{
+        method:'POST',
+        body:login_data,
+        headers:{
+                'Content-Type':'application/json',
+            },
+    });
+    let data= await response.json();
+    console.log('data:',data);
+    let username=document.getElementById('login-username').value;
+    getProfile(username,data.token)
+    gotoyoutube();
+    }
+
+    async function getProfile(username,token){
+        let api=`https://masai-api-mocker.herokuapp.com/user/${username}`;
+
+        //fetch request
+        let response=await fetch(api, {
+            headers: {
+                'Content-Type':'application/json',
+                 Authorization: `Bearer ${token}`,
+            },
+        });
+        let data=await response.json();
+        console.log('data:',data);
+        
+
+    }
+    function gotoyoutube(){
+        let login=document.getElementById("login");
+        login.addEventListener("click",function(){
+           
+            window.location.href="youtube1.html";
+        })
+    }
+</script>
