@@ -26,8 +26,6 @@ This is a YOUTUBE CLONE
 ---
 ## Installation
 
-WebApp requires [Node.js](https://nodejs.org/) v10+ to run.
-
 ```sh
 git clone Youtube-Clone
 cd Youtube-Clone
